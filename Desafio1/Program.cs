@@ -13,6 +13,12 @@ namespace Desafio1
         public decimal valor { get; set; }
     }
 
+    public class Comissao
+    {
+        public string comissao_vendedor { get; set; }
+        public decimal comissao_total { get; set; }
+    }
+
 
     public class Program
     {
@@ -65,34 +71,62 @@ namespace Desafio1
                 }
                 """;
 
+
             Vendas? vendas = JsonSerializer.Deserialize<Vendas>(jsonString);
-            decimal comissao = 0;
+
+            decimal comissao_venda = 0;
+            var comissoes = new List<Comissao>();
 
             if (vendas?.vendas != null)
             {
                 int count = 0;
                 foreach(Venda venda in vendas.vendas)
                 {
-                    count++;
-                    Console.WriteLine("---");
-                    Console.WriteLine($"Venda de número {count}");
-                    Console.WriteLine($"Vendedor: {venda.vendedor}");
-                    Console.WriteLine($"Valor da venda: R${venda.valor}");
+                    count++;                    
+                    Comissao vendedor_buscado = comissoes.Find(e => e.comissao_vendedor == venda.vendedor);
+                    if (vendedor_buscado == null)
+                    {
+                        comissoes.Add(new Comissao() { comissao_vendedor = venda.vendedor, comissao_total = comissao_venda });
+                    }
+                    //Console.WriteLine("---");
+                    //Console.WriteLine($"Venda de número {count}");
+                    //Console.WriteLine($"Vendedor: {venda.vendedor}");
+                    //Console.WriteLine($"Valor da venda: R${venda.valor}");
 
                     if (venda.valor < 500m && venda.valor > 100m)
                     {
-                        comissao = venda.valor * (1m / 100m);
+                        comissao_venda = venda.valor * (1m / 100m);
                     } else if (venda.valor >= 500m)
                     {
-                        comissao = venda.valor * (5m / 100m);
+                        comissao_venda = venda.valor * (5m / 100m);
                     } else
                     {
-                        comissao = 0;
+                        comissao_venda = 0;
                     }
-                    Console.WriteLine($"Valor da comissão dessa venda: R${comissao}");
+
+                    //Console.WriteLine($"Valor da comissão dessa venda: R${comissao_venda:F2}"); // remover o :F2 mostra o valor total, sem arrendodamento.
+                    /*if (vendedor_atual == venda.vendedor)
+                    {
+                        comissao_vendedor += comissao;
+                    } else
+                    {
+                        Console.WriteLine($"Comissão total: R${comissao_vendedor:F2}");
+                        comissao_vendedor = 0;
+                        vendedor_atual = venda.vendedor;   
+                    }
+                    */
                 }
+                //Console.WriteLine("---");
+            }
+
+            foreach(Comissao comissao in comissoes)
+            {
+                Console.WriteLine("---");
+                Console.WriteLine($"Vendedor: {comissao.comissao_vendedor}");
+                Console.WriteLine($"Comissão total: {comissao.comissao_total:F2}"); // remover o :F2 mostra o valor total, sem arrendodamento.
                 Console.WriteLine("---");
             }
+
         }
     }
 }
