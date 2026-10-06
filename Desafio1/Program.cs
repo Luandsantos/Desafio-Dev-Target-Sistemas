@@ -4,18 +4,18 @@ namespace Desafio1
 {
     public class Vendas
     {
-        public Venda[] vendas { get; set; }
+        public required Venda[] vendas { get; set; }
     }
 
     public class Venda
     {
-        public string vendedor { get; set; }
+        public required string vendedor { get; set; }
         public decimal valor { get; set; }
     }
 
     public class Comissao
     {
-        public string comissao_vendedor { get; set; }
+        public required string comissao_vendedor { get; set; }
         public decimal comissao_total { get; set; }
     }
 
@@ -79,7 +79,6 @@ namespace Desafio1
 
             if (vendas?.vendas != null)
             {
-                int count = 0;
                 foreach(Venda venda in vendas.vendas)
                 {
 
