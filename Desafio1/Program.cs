@@ -1,4 +1,6 @@
-﻿namespace Desafio1
+﻿using System.Text.Json;
+
+namespace Desafio1
 {
     public class Vendas
     {
@@ -8,7 +10,7 @@
     public class Venda
     {
         public string vendedor { get; set; }
-        public float valor { get; set; }
+        public decimal valor { get; set; }
     }
 
 
@@ -62,6 +64,32 @@
                   ]
                 }
                 """;
+
+            Vendas? vendas = JsonSerializer.Deserialize<Vendas>(jsonString);
+
+            if (vendas?.vendas != null)
+            {
+                int count = 0;
+                foreach(Venda venda in vendas.vendas)
+                {
+                    count++;
+                    Console.WriteLine("---");
+                    Console.WriteLine($"Venda de número {count}");
+                    Console.WriteLine($"Vendedor: {venda.vendedor}");
+                    Console.WriteLine($"Valor da venda: {venda.valor}");
+                }
+                Console.WriteLine("---");
+            }
+
+            /*
+             *           if (weatherForecast?.SummaryWords != null)
+            {
+                foreach (string summaryWord in weatherForecast.SummaryWords)
+                {
+                    Console.WriteLine($"SummaryWord: {summaryWord}");
+                }
+            }
+             */
         }
     }
 }
