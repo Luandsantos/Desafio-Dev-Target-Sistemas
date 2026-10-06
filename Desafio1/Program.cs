@@ -82,50 +82,43 @@ namespace Desafio1
                 int count = 0;
                 foreach(Venda venda in vendas.vendas)
                 {
-                    count++;                    
-                    Comissao vendedor_buscado = comissoes.Find(e => e.comissao_vendedor == venda.vendedor);
-                    if (vendedor_buscado == null)
-                    {
-                        comissoes.Add(new Comissao() { comissao_vendedor = venda.vendedor, comissao_total = comissao_venda });
-                    }
-                    //Console.WriteLine("---");
-                    //Console.WriteLine($"Venda de número {count}");
-                    //Console.WriteLine($"Vendedor: {venda.vendedor}");
-                    //Console.WriteLine($"Valor da venda: R${venda.valor}");
 
-                    if (venda.valor < 500m && venda.valor > 100m)
-                    {
-                        comissao_venda = venda.valor * (1m / 100m);
-                    } else if (venda.valor >= 500m)
+                    if (venda.valor >= 500m)
                     {
                         comissao_venda = venda.valor * (5m / 100m);
-                    } else
+                    }
+                    else if (venda.valor >= 100m)
                     {
-                        comissao_venda = 0;
+                        comissao_venda = venda.valor * (1m / 100m);
+                    }
+                    else
+                    {
+                        comissao_venda = 0m;
                     }
 
-                    //Console.WriteLine($"Valor da comissão dessa venda: R${comissao_venda:F2}"); // remover o :F2 mostra o valor total, sem arrendodamento.
-                    /*if (vendedor_atual == venda.vendedor)
+                    Comissao? vendedor_buscado = comissoes.Find(e => e.comissao_vendedor == venda.vendedor);
+
+                    if (vendedor_buscado == null)
                     {
-                        comissao_vendedor += comissao;
+                        comissoes.Add(new Comissao() { 
+                            comissao_vendedor = venda.vendedor, 
+                            comissao_total = comissao_venda 
+                        });
                     } else
                     {
-                        Console.WriteLine($"Comissão total: R${comissao_vendedor:F2}");
-                        comissao_vendedor = 0;
-                        vendedor_atual = venda.vendedor;   
+                        vendedor_buscado.comissao_total += comissao_venda;
+
                     }
-                    */
                 }
-                //Console.WriteLine("---");
             }
 
             foreach(Comissao comissao in comissoes)
             {
                 Console.WriteLine("---");
                 Console.WriteLine($"Vendedor: {comissao.comissao_vendedor}");
-                Console.WriteLine($"Comissão total: {comissao.comissao_total:F2}"); // remover o :F2 mostra o valor total, sem arrendodamento.
-                Console.WriteLine("---");
+                Console.WriteLine($"Comissão total: R${comissao.comissao_total:F2}"); // remover o :F2 mostra o valor total, sem arrendodamento.
             }
+            Console.WriteLine("---");
 
         }
     }
