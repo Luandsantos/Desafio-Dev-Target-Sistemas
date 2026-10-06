@@ -66,6 +66,7 @@ namespace Desafio1
                 """;
 
             Vendas? vendas = JsonSerializer.Deserialize<Vendas>(jsonString);
+            decimal comissao = 0;
 
             if (vendas?.vendas != null)
             {
@@ -76,20 +77,22 @@ namespace Desafio1
                     Console.WriteLine("---");
                     Console.WriteLine($"Venda de número {count}");
                     Console.WriteLine($"Vendedor: {venda.vendedor}");
-                    Console.WriteLine($"Valor da venda: {venda.valor}");
+                    Console.WriteLine($"Valor da venda: R${venda.valor}");
+
+                    if (venda.valor < 500m && venda.valor > 100m)
+                    {
+                        comissao = venda.valor * (1m / 100m);
+                    } else if (venda.valor >= 500m)
+                    {
+                        comissao = venda.valor * (5m / 100m);
+                    } else
+                    {
+                        comissao = 0;
+                    }
+                    Console.WriteLine($"Valor da comissão dessa venda: R${comissao}");
                 }
                 Console.WriteLine("---");
             }
-
-            /*
-             *           if (weatherForecast?.SummaryWords != null)
-            {
-                foreach (string summaryWord in weatherForecast.SummaryWords)
-                {
-                    Console.WriteLine($"SummaryWord: {summaryWord}");
-                }
-            }
-             */
         }
     }
 }
