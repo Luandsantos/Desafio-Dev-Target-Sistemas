@@ -15,6 +15,12 @@ namespace Desafio2
         public int estoque { get; set; }
     }
 
+    public class Movimentacao
+    {
+        public int codigoMovimentacao { get; set; }
+        public string descricaoMovimentacao { get; set; }
+    }
+
     public class Program
     {
         public static void Main()
@@ -22,7 +28,7 @@ namespace Desafio2
             string jsonString =
                 """
                                 {
-                	"estoque":
+                 	"estoque":
                 	[
                 	  {
                 		"codigoProduto": 101,
@@ -53,6 +59,21 @@ namespace Desafio2
                 }
                 
                 """;
+
+            Estoques? estoques = JsonSerializer.Deserialize<Estoques>(jsonString);
+
+
+            if (estoques?.estoque != null)
+            {
+                foreach (Estoque e in estoques.estoque)
+                {
+                    Console.WriteLine("---");
+                    Console.WriteLine($"Código do Produto: {e.codigoProduto}");
+                    Console.WriteLine($"Descrição do Produto: {e.descricaoProduto}");
+                    Console.WriteLine($"Qtde em Estoque: {e.estoque}");
+                }
+                Console.WriteLine("---");
+            }
         }
     }
 }
