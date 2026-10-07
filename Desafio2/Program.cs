@@ -80,7 +80,7 @@ namespace Desafio2
             int count = 0;
 
             // COMEÇO DAS OPERAÇÕES
-            string continuarOperacoes = "";
+            string continuarOperacoes = "sim";
 
             while(continuarOperacoes.ToLower() == "sim" || continuarOperacoes.ToLower() == "s")
             {
@@ -101,7 +101,7 @@ namespace Desafio2
                     Console.WriteLine("\nDigite o código do produto que deseja movimentar: ");
                     lerCodigoProduto = Convert.ToInt32(Console.ReadLine());
 
-                    foreach (Estoque e in estoques.estoque)
+                    foreach (Estoque e in estoques!.estoque)
                     {
                         if (e.codigoProduto == lerCodigoProduto)
                         {
@@ -119,7 +119,7 @@ namespace Desafio2
                 do
                 {
                     Console.WriteLine("Entrada ou Saída?");
-                    operacaoMovimentacao = Console.ReadLine().ToLower();
+                    operacaoMovimentacao = Console.ReadLine() ?? "".ToLower();
                 } while (operacaoMovimentacao != "entrada" && operacaoMovimentacao != "saída" && operacaoMovimentacao != "saida");
 
                 // Define e valida valor do movimento
@@ -154,7 +154,7 @@ namespace Desafio2
 
                 // Define a descrição da movimentação
                 Console.WriteLine("Digite a descrição desse movimento.");
-                descricaoMovimento = Console.ReadLine();
+                descricaoMovimento = Console.ReadLine() ?? "";
 
                 // Adicionar movimentacao na classe
                 codigoMovimentacaoGerada++;
@@ -171,7 +171,7 @@ namespace Desafio2
 
                 // Encerra operações
                 Console.WriteLine("\nDeseja continuar as operações? [sim/s]");
-                continuarOperacoes = Console.ReadLine();
+                continuarOperacoes = Console.ReadLine() ?? "";
             }
             // FIM DAS OPERAÇÕES
 
