@@ -66,6 +66,7 @@ namespace Desafio2
 
             if (estoques?.estoque != null)
             {
+                Console.WriteLine("LISTA DE ESTOQUES");
                 foreach (Estoque e in estoques.estoque)
                 {
                     Console.WriteLine("---");
@@ -83,92 +84,71 @@ namespace Desafio2
             int count = 0;
             string operacaoMovimentacao = "";
             int qtdeMovimentada = 0;
-            string descricaoMovimento;
+            string descricaoMovimento = "";
 
             // COMEÇO DAS OPERAÇÕES
 
-            Console.WriteLine("Digite o código do produto que deseja movimentar: ");
+            Console.WriteLine("\nDigite o código do produto que deseja movimentar: ");
             codProduto = Convert.ToInt32(Console.ReadLine());
-
 
             foreach (Estoque e in estoques.estoque)
             {
                 if (e.codigoProduto == codProduto)
                 {
-                    Console.WriteLine("Código de produto encontrado.");
                     break;
                 }
                 count++;
             }
 
             Console.WriteLine($"Produto: {estoques.estoque[count].descricaoProduto}");
-            Console.WriteLine($"Produto: {estoques.estoque[count].estoque}");
-
-            Console.WriteLine("Deseja continuar? [S/N]");
 
             Console.WriteLine("Entrada ou Saída?");
             operacaoMovimentacao = Console.ReadLine();
 
-            if (operacaoMovimentacao == "Entrada")
+            while (operacaoMovimentacao != "Entrada" && operacaoMovimentacao != "Saída")
             {
-
-            } else if (operacaoMovimentacao == "Saída")
-            {
-
-            } else
-            {
-                Console.WriteLine("Operação incorreta.");
+                Console.WriteLine("Operação incorreta");
+                Console.WriteLine("Entrada ou Saída?");
+                operacaoMovimentacao = Console.ReadLine();
             }
 
+            Console.WriteLine("Digite o valor do movimento:");
+            qtdeMovimentada = Convert.ToInt32(Console.ReadLine());
 
+            if (operacaoMovimentacao == "Entrada")
+            {
+                estoques.estoque[count].estoque += qtdeMovimentada;
+            } else if (estoques.estoque[count].estoque >= qtdeMovimentada)
+            {
+                estoques.estoque[count].estoque -= qtdeMovimentada;
+            } else
+            {
+                Console.WriteLine("Essa quantidade não é válida.");
+            }
 
+            Console.WriteLine("Digite a descrição desse movimento.");
+            descricaoMovimento = Console.ReadLine();
 
-            switch (operacaoMovimentacao)
-                {
-                    case "Entrada":
-                        Console.WriteLine("Digite o valor do movimento:");
-                        qtdeMovimentada = Convert.ToInt32(Console.ReadLine());
-                        estoques.estoque[count].estoque += qtdeMovimentada;
+            // Adicionar movimentacao na classe
+            codigoMovimentacaoGerada++;
+            movimentacoes.Add(new Movimentacao
+            {
+                codigoMovimentacao = codigoMovimentacaoGerada,
+                descricaoMovimentacao = descricaoMovimento
+            });
 
-                        codigoMovimentacaoGerada++;
-                        movimentacoes.Add(new Movimentacao
-                        {
-                            codigoMovimentacao = codigoMovimentacaoGerada,
-                            descricaoMovimentacao = "Entrada",
-                        });
-
-                        break;
-                    case "Saída":
-                        Console.WriteLine("Digite o valor do movimento:");
-                        qtdeMovimentada = Convert.ToInt32(Console.ReadLine());
-                        if (estoques.estoque[count].estoque > qtdeMovimentada)
-                        {
-                            estoques.estoque[count].estoque -= qtdeMovimentada;
-
-                            codigoMovimentacaoGerada++;
-                            movimentacoes.Add(new Movimentacao
-                            {
-                                codigoMovimentacao = codigoMovimentacaoGerada,
-                                descricaoMovimentacao = "Saída",
-                            });
-                        }
-                        else
-                        {
-                            Console.WriteLine("Não é possível fazer essa saída.");
-                        }
-                        break;
-                    default:
-                        Console.WriteLine("Tipo de movimentação incorreta.");
-                        break;
-                }
+            Console.WriteLine($"\nProduto movimentado: {estoques.estoque[count].descricaoProduto}");
+            Console.WriteLine($"Estoque atual: {estoques.estoque[count].estoque}");
 
             // FIM DAS OPERAÇÕES
 
-            foreach(Movimentacao movimento in movimentacoes)
+            // Lista de movimentações
+            Console.WriteLine("\nLISTA DE MOVIMENTAÇÕES");
+            foreach (Movimentacao movimento in movimentacoes)
             {
+                Console.WriteLine("---");
                 Console.WriteLine($"Código da Movimentação: {movimento.codigoMovimentacao}");
-                Console.WriteLine($"Descrição da movimentação: {movimento.descricaoMovimentacao}:");
-                Console.WriteLine($"Quantidade de produto movimentado: {movimento.qtdeMovimentada}");
+                Console.WriteLine($"Descrição da movimentação: {movimento.descricaoMovimentacao}");
             }
             Console.WriteLine("---");
         }
