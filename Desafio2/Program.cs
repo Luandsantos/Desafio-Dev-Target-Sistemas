@@ -77,12 +77,19 @@ namespace Desafio2
             }
 
             var movimentacoes = new List<Movimentacao>();
-            int codProduto;
+            int codigoMovimentacaoGerada = 0;
 
-            // Dentro do array de estoque em estoques, encontre o primeiro cujo codigoProduto = codProduto
+            int codProduto; // alterar nome para maior clareza
+            int count = 0;
+            string operacaoMovimentacao = "";
+            int qtdeMovimentada = 0;
+            string descricaoMovimento;
+
+            // COMEÇO DAS OPERAÇÕES
 
             Console.WriteLine("Digite o código do produto que deseja movimentar: ");
             codProduto = Convert.ToInt32(Console.ReadLine());
+
 
             foreach (Estoque e in estoques.estoque)
             {
@@ -91,18 +98,76 @@ namespace Desafio2
                     Console.WriteLine("Código de produto encontrado.");
                     break;
                 }
+                count++;
+            }
+
+            Console.WriteLine($"Produto: {estoques.estoque[count].descricaoProduto}");
+            Console.WriteLine($"Produto: {estoques.estoque[count].estoque}");
+
+            Console.WriteLine("Deseja continuar? [S/N]");
+
+            Console.WriteLine("Entrada ou Saída?");
+            operacaoMovimentacao = Console.ReadLine();
+
+            if (operacaoMovimentacao == "Entrada")
+            {
+
+            } else if (operacaoMovimentacao == "Saída")
+            {
+
+            } else
+            {
+                Console.WriteLine("Operação incorreta.");
             }
 
 
-            Console.WriteLine("Confirmação: O produto é {descricaoProduto}?");
-            Console.WriteLine("Confirmado. Entrada ou Saída?");
-            Console.WriteLine("Confirmado. Digite o valor do movimento:");
-            Console.WriteLine("Ótimo.");
+
+
+            switch (operacaoMovimentacao)
+                {
+                    case "Entrada":
+                        Console.WriteLine("Digite o valor do movimento:");
+                        qtdeMovimentada = Convert.ToInt32(Console.ReadLine());
+                        estoques.estoque[count].estoque += qtdeMovimentada;
+
+                        codigoMovimentacaoGerada++;
+                        movimentacoes.Add(new Movimentacao
+                        {
+                            codigoMovimentacao = codigoMovimentacaoGerada,
+                            descricaoMovimentacao = "Entrada",
+                        });
+
+                        break;
+                    case "Saída":
+                        Console.WriteLine("Digite o valor do movimento:");
+                        qtdeMovimentada = Convert.ToInt32(Console.ReadLine());
+                        if (estoques.estoque[count].estoque > qtdeMovimentada)
+                        {
+                            estoques.estoque[count].estoque -= qtdeMovimentada;
+
+                            codigoMovimentacaoGerada++;
+                            movimentacoes.Add(new Movimentacao
+                            {
+                                codigoMovimentacao = codigoMovimentacaoGerada,
+                                descricaoMovimentacao = "Saída",
+                            });
+                        }
+                        else
+                        {
+                            Console.WriteLine("Não é possível fazer essa saída.");
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Tipo de movimentação incorreta.");
+                        break;
+                }
+
+            // FIM DAS OPERAÇÕES
 
             foreach(Movimentacao movimento in movimentacoes)
             {
                 Console.WriteLine($"Código da Movimentação: {movimento.codigoMovimentacao}");
-                Console.WriteLine($"Descrição da movimentação {movimento.descricaoMovimentacao}:");
+                Console.WriteLine($"Descrição da movimentação: {movimento.descricaoMovimentacao}:");
                 Console.WriteLine($"Quantidade de produto movimentado: {movimento.qtdeMovimentada}");
             }
             Console.WriteLine("---");
