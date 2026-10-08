@@ -6,22 +6,29 @@ public class Desafio3
     {
         DateTime dataAtual = DateTime.Now.Date;
         DateTime dataVencimento;
-        decimal valor;
-        decimal juros;
+        decimal valorInicial;
+        decimal valorJuros;
+        double multa = 0.0025; // 2,5%
 
-        Console.WriteLine("Digite a data de vencimento. Dia (1-31): ");
-        int dia = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("Mês (1-12):");
-        int mes = Convert.ToInt32(Console.ReadLine());
-        // erro: esse dia n existe nesse mes
-        // erro geral: fora do range
-        Console.WriteLine("Ano: (2020-2099)"); // intervalo "arbitrário" fácilmente alterável
-        int ano = Convert.ToInt32(Console.ReadLine());
+        // Inserir valor inicial válido
+        do
+        {
+            Console.WriteLine("Digite um valor em reais");
+            valorInicial = Convert.ToDecimal(Console.ReadLine());
+        } while (valorInicial < 0);
 
-        dataVencimento = new DateTime(ano, mes, dia).Date;
-        Console.WriteLine(dataAtual.ToString("d"));
-        Console.WriteLine(dataVencimento.ToString("d"));
-        DateTime dataAtraso = dataAtual - dataVencimento; 
-        Console.WriteLine($"Diferença de dias: {dataAtual - dataVencimento} dia(s).");
+
+        // Inserir data válida
+        do
+        {
+            Console.WriteLine("Digite a data de vencimento (dd/mm/yyyy)");
+            var input = Console.ReadLine();
+            DateTime.TryParse(input, out dataVencimento);
+        } while (dataVencimento.Equals(DateTime.MinValue));
+
+        TimeSpan dataAtraso = dataAtual - dataVencimento;
+        Console.WriteLine(valorInicial);
+        valorJuros = valorInicial * Convert.ToDecimal(multa) * dataAtraso.Days;
+        Console.WriteLine($"Devido ao atraso de {dataAtraso.Days} dias(s), o valor dos juros será de R${valorJuros}.");
     }
 }
