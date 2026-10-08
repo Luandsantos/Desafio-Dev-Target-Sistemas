@@ -1,6 +1,4 @@
-﻿using System;
-
-public class Desafio3
+﻿public class Desafio3
 {
     public static void Main()
     {
@@ -9,26 +7,37 @@ public class Desafio3
         decimal valorInicial;
         decimal valorJuros;
         decimal multa = 0.025m; // 2,5%
+        string? input;
 
         // Inserir valor inicial válido
         do
         {
             Console.WriteLine("Digite um valor em reais:");
             valorInicial = Convert.ToDecimal(Console.ReadLine());
-        } while (valorInicial < 0);
+        } while (valorInicial <= 0);
 
 
         // Inserir data válida
         do
         {
-            Console.WriteLine("Digite a data de vencimento (dd/mm/yyyy):");
-            var input = Console.ReadLine();
-            DateTime.TryParse(input, out dataVencimento);
-        } while (dataVencimento.Equals(DateTime.MinValue));
+            Console.WriteLine("Digite a data de vencimento:");
+            input = Console.ReadLine();
+        } while (!DateTime.TryParse(input, out dataVencimento));
 
         // Calcular e mostrar juros
-        TimeSpan dataAtraso = dataAtual - dataVencimento;
-        valorJuros = valorInicial * multa * dataAtraso.Days;
-        Console.WriteLine($"Devido ao atraso de {dataAtraso.Days} dias(s), o valor dos juros será de R${valorJuros:F2}.");
+        TimeSpan diasVencimento = dataAtual - dataVencimento;
+        if (diasVencimento.Days > 0)
+        {
+            valorJuros = valorInicial * multa * diasVencimento.Days;
+            Console.WriteLine($"Devido ao atraso de {diasVencimento.Days} dia(s), o valor dos juros será de R${valorJuros:F2}.");
+        }
+        else if (diasVencimento.Days == 0)
+        {
+            Console.WriteLine("A data de vencimento é hoje. Não há juros por atraso.");
+        }
+        else
+        {
+            Console.WriteLine("Ainda não chegou a data de vencimento.");
+        }
     }
 }
