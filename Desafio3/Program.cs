@@ -8,12 +8,12 @@ public class Desafio3
         DateTime dataVencimento;
         decimal valorInicial;
         decimal valorJuros;
-        double multa = 0.0025; // 2,5%
+        decimal multa = 0.025m; // 2,5%
 
         // Inserir valor inicial válido
         do
         {
-            Console.WriteLine("Digite um valor em reais");
+            Console.WriteLine("Digite um valor em reais:");
             valorInicial = Convert.ToDecimal(Console.ReadLine());
         } while (valorInicial < 0);
 
@@ -21,14 +21,14 @@ public class Desafio3
         // Inserir data válida
         do
         {
-            Console.WriteLine("Digite a data de vencimento (dd/mm/yyyy)");
+            Console.WriteLine("Digite a data de vencimento (dd/mm/yyyy):");
             var input = Console.ReadLine();
             DateTime.TryParse(input, out dataVencimento);
         } while (dataVencimento.Equals(DateTime.MinValue));
 
+        // Calcular e mostrar juros
         TimeSpan dataAtraso = dataAtual - dataVencimento;
-        Console.WriteLine(valorInicial);
-        valorJuros = valorInicial * Convert.ToDecimal(multa) * dataAtraso.Days;
-        Console.WriteLine($"Devido ao atraso de {dataAtraso.Days} dias(s), o valor dos juros será de R${valorJuros}.");
+        valorJuros = valorInicial * multa * dataAtraso.Days;
+        Console.WriteLine($"Devido ao atraso de {dataAtraso.Days} dias(s), o valor dos juros será de R${valorJuros:F2}.");
     }
 }
