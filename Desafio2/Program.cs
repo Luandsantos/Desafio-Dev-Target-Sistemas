@@ -119,7 +119,7 @@ namespace Desafio2
                 do
                 {
                     Console.WriteLine("Entrada ou Saída?");
-                    operacaoMovimentacao = Console.ReadLine() ?? "".ToLower();
+                    operacaoMovimentacao = (Console.ReadLine() ?? "").ToLower(); ;
                 } while (operacaoMovimentacao != "entrada" && operacaoMovimentacao != "saída" && operacaoMovimentacao != "saida");
 
                 // Define e valida valor do movimento
@@ -130,7 +130,7 @@ namespace Desafio2
                     Console.WriteLine("Digite o valor do movimento:");
                     qtdeMovimentada = Convert.ToInt32(Console.ReadLine());
 
-                    if (qtdeMovimentada >= 0)
+                    if (qtdeMovimentada > 0)
                     {
                         if (operacaoMovimentacao == "entrada")
                         {
@@ -148,7 +148,7 @@ namespace Desafio2
                         }
                     } else
                     {
-                        Console.WriteLine("Digite um valor igual ou maior que zero.");
+                        Console.WriteLine("Digite um valor maior que zero.");
                     }
                 } while (!valorValido);
 
